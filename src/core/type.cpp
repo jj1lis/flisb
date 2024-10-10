@@ -25,7 +25,7 @@ const string& FunctionType::name() const noexcept {
 }
 
 bool FunctionType::operator==(const Type& rType) const {
-    if(rType.type() == TypeEnum::Function) {
+    if(rType.type() == TypeEnum::TypeEnumFunction) {
         const FunctionType& r = dynamic_cast<const FunctionType&>(rType);
         return *fst() == *(r.fst()) && *snd() == *(r.snd());
     } else {

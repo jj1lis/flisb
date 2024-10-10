@@ -10,12 +10,12 @@ using namespace std;
 namespace flisb::core {
 
 using baseTypeId = uint32_t;
-constexpr baseTypeId INVALID_ID = 0;
+constexpr baseTypeId INVALID_TYPE_ID = 0;
 
-enum TypeEnum : uint8_t {
-    Base,
-    Function,
-    Polymorphic,
+enum TypeForm : uint8_t {
+    TypeFormBase,
+    TypeFormFunction,
+    TypeFormPolymorphic,
 };
 
 // Abstract class expressing type
@@ -25,7 +25,7 @@ protected:
 public:
     Type() {};
     Type(string name) : typeName(name) {};
-    virtual TypeEnum type() const noexcept = 0;
+    virtual TypeForm form() const noexcept = 0;
     virtual const string& name() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
@@ -41,8 +41,8 @@ protected:
 public:
     BaseType(baseTypeId id, string name) : Type(name), typeId(id) {};
 
-    virtual TypeEnum type() const noexcept override {
-        return TypeEnum::Base;
+    virtual TypeForm form() const noexcept override {
+        return TypeForm::TypeFormBase;
     }
     virtual bool isBase() const noexcept override {
         return true;
@@ -66,8 +66,8 @@ protected:
 public:
     FunctionType(unique_ptr<Type> first, unique_ptr<Type> second);
 
-    virtual TypeEnum type() const noexcept override {
-        return TypeEnum::Function;
+    virtual TypeForm form() const noexcept override {
+        return TypeForm::TypeFormFunction;
     }
     virtual const string& name() const noexcept override;
     virtual bool operator==(const Type& rType) const override;

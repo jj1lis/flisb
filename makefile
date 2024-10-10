@@ -18,8 +18,9 @@ SRCS += $(wildcard $(SRCDIR2)*.cpp)
 OBJDIR = ./obj/
 OBJS = $(SRCS:%.c=$(OBJDIR)%.o)
 
-CC = gcc
+CC = g++
 CFLAGS = -Wall -Werror -Wextra -std=c++17
+# CFLAGS = -std=c++17
 
 # $(NAME) : $(SRCS)
 # 	$(CC) $(CFLAGS) $^ -o $@
