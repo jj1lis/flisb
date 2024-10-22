@@ -10,6 +10,7 @@ namespace flisb::core {
 class Object {
 protected:
     const string objectName;
+
 public:
     Object() {};
     Object(string name) : objectName(name) {};

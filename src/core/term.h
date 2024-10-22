@@ -97,7 +97,7 @@ public:
         return boundTerm.get();
     }
 
-    static string structName(const BaseTerm* first, const Term* second);
+    static string structName(const BaseTerm* parameter, const Term* bound);
 };
 
 
