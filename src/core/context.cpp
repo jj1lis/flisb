@@ -1,7 +1,9 @@
 #include "context.h"
-#include "type.h"
-#include "term.h"
+
 #include <memory>
+
+#include "term.h"
+#include "type.h"
 
 using namespace std;
 
@@ -17,4 +19,4 @@ string Assignment::structName(const BaseTerm* variable, const Type* type) {
     return variable->name() + ":" + type->name();
 }
 
-}
+}    // namespace flisb::core

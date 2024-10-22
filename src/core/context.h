@@ -2,9 +2,10 @@
 #define _CONTEXT_H
 
 #include <memory>
+
 #include "object.h"
-#include "type.h"
 #include "term.h"
+#include "type.h"
 
 namespace flisb::core {
 
@@ -24,7 +25,6 @@ protected:
     // TODO
 };
 
+}    // namespace flisb::core
 
-}
-
-#endif // !_CONTEXT_H
+#endif    // !_CONTEXT_H

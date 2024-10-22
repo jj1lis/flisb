@@ -14,14 +14,14 @@ bool BaseType::operator==(const Type& rType) const {
     }
 }
 
-FunctionType::FunctionType(shared_ptr<Type> first, shared_ptr<Type> second) 
+FunctionType::FunctionType(shared_ptr<Type> first, shared_ptr<Type> second)
         : Type(structName(first.get(), second.get())) {
     firstType = std::move(first);
     secondType = std::move(second);
 }
 
 bool FunctionType::operator==(const Type& rType) const {
-    if(rType.form() == TypeForm::TypeFormFunction) {
+    if (rType.form() == TypeForm::TypeFormFunction) {
         const FunctionType& r = dynamic_cast<const FunctionType&>(rType);
         return *fst() == *(r.fst()) && *snd() == *(r.snd());
     } else {
@@ -29,9 +29,8 @@ bool FunctionType::operator==(const Type& rType) const {
     }
 }
 
-string FunctionType::structName(const Type *first, const Type *second) {
+string FunctionType::structName(const Type* first, const Type* second) {
     // (first -> second)
     return string("(") + first->name() + string(" -> ") + second->name() + string(")");
 }
-
 }

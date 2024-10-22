@@ -1,18 +1,19 @@
-#include "core/type.h"
-#include "core/term.h"
 #include <iostream>
 #include <memory>
 #include <string>
+
+#include "core/term.h"
+#include "core/type.h"
 
 using namespace flisb;
 using namespace std;
 
 int main() {
     auto alpha = make_shared<core::BaseType>(1, "alpha");
-    auto beta = make_shared<core::BaseType>(2, "beta");
+    auto beta  = make_shared<core::BaseType>(2, "beta");
     auto gamma = make_shared<core::BaseType>(3, "gamma");
-    auto T = make_shared<core::FunctionType>(alpha, beta);
-    auto U = make_shared<core::FunctionType>(T, gamma);
+    auto T     = make_shared<core::FunctionType>(alpha, beta);
+    auto U     = make_shared<core::FunctionType>(T, gamma);
 
     cout << T->name().c_str() << endl;
     cout << U->name().c_str() << endl;

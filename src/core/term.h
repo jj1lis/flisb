@@ -4,13 +4,14 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+
 #include "object.h"
 
 using namespace std;
 
 namespace flisb::core {
 
-using baseTermId = uint32_t;
+using baseTermId                     = uint32_t;
 constexpr baseTermId INVALID_TERM_ID = 0;
 
 enum TermForm : uint8_t {
@@ -22,9 +23,11 @@ enum TermForm : uint8_t {
 // Abstract class expression term
 class Term : public Object {
 protected:
+
 public:
     Term();
-    Term(string name) : Object(name) {};
+    Term(string name)
+            : Object(name) {};
     virtual TermForm form() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
@@ -38,7 +41,8 @@ protected:
     const baseTermId termId;
 
 public:
-    BaseTerm(baseTermId id, string name) : Term(name), termId(id) {};
+    BaseTerm(baseTermId id, string name)
+            : Term(name), termId(id) {};
 
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormBase;
@@ -82,6 +86,7 @@ class FunctionTerm : public Term {
 protected:
     shared_ptr<BaseTerm> parameterVariable;
     shared_ptr<Term> boundTerm;
+
 public:
     FunctionTerm(shared_ptr<BaseTerm> parameter, shared_ptr<Term> bound);
 
@@ -100,7 +105,6 @@ public:
     static string structName(const BaseTerm* parameter, const Term* bound);
 };
 
+}    // namespace flisb::core
 
-}
-
-#endif // !_TERM_H
+#endif    // !_TERM_H

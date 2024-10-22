@@ -13,12 +13,13 @@ protected:
 
 public:
     Object() {};
-    Object(string name) : objectName(name) {};
+    Object(string name)
+            : objectName(name) {};
     const string& name() const {
         return objectName;
     }
 };
 
-}
+}    // namespace flisb::core
 
-#endif // !_OBJECT_H
+#endif    // !_OBJECT_H
