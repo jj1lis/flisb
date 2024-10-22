@@ -1,9 +1,10 @@
 #ifndef _TERM_H
 #define _TERM_H
 
-#include "type.h"
 #include <cstdint>
+#include <memory>
 #include <string>
+#include "object.h"
 
 using namespace std;
 
@@ -19,14 +20,12 @@ enum TermForm : uint8_t {
 };
 
 // Abstract class expression term
-class Term {
+class Term : public Object {
 protected:
-    const string termName;
 public:
     Term();
-    Term(string name) : termName(name) {};
+    Term(string name) : Object(name) {};
     virtual TermForm form() const noexcept = 0;
-    virtual const string& name() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
     }
@@ -52,24 +51,20 @@ public:
     baseTermId id() const noexcept {
         return termId;
     }
-    virtual const string& name() const noexcept override {
-        return termName;
-    }
 };
 
 // Applied term class
 class AppliedTerm : public Term {
 protected:
-    unique_ptr<Term> firstTerm;
-    unique_ptr<Term> secondTerm;
+    shared_ptr<Term> firstTerm;
+    shared_ptr<Term> secondTerm;
 
 public:
-    AppliedTerm(unique_ptr<Term> first, unique_ptr<Term> second);
+    AppliedTerm(shared_ptr<Term> first, shared_ptr<Term> second);
 
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormApplied;
     }
-    virtual const string& name() const noexcept override;
     virtual bool operator==(const Term& rTerm) const override;
 
     const Term* fst() const noexcept {
@@ -78,20 +73,21 @@ public:
     const Term* snd() const noexcept {
         return secondTerm.get();
     }
+
+    static string structName(const Term* first, const Term* second);
 };
 
 // Function term class
 class FunctionTerm : public Term {
 protected:
-    unique_ptr<BaseTerm> parameterVariable;
-    unique_ptr<Term> boundTerm;
+    shared_ptr<BaseTerm> parameterVariable;
+    shared_ptr<Term> boundTerm;
 public:
-    FunctionTerm(unique_ptr<BaseTerm> parameter, unique_ptr<Term> bound);
+    FunctionTerm(shared_ptr<BaseTerm> parameter, shared_ptr<Term> bound);
 
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormFunction;
     }
-    virtual const string& name() const noexcept override;
     virtual bool operator==(const Term& rTerm) const override;
 
     const BaseTerm* parameter() const noexcept {
@@ -100,6 +96,8 @@ public:
     const Term* bound() const noexcept {
         return boundTerm.get();
     }
+
+    static string structName(const BaseTerm* first, const Term* second);
 };
 
 

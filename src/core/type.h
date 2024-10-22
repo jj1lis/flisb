@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include "object.h"
 
 using namespace std;
 
@@ -19,14 +20,12 @@ enum TypeForm : uint8_t {
 };
 
 // Abstract class expressing type
-class Type {
+class Type : public Object {
 protected:
-    const string typeName;
 public:
     Type() {};
-    Type(string name) : typeName(name) {};
+    Type(string name) : Object(name) {};
     virtual TypeForm form() const noexcept = 0;
-    virtual const string& name() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
     }
@@ -52,24 +51,20 @@ public:
     baseTypeId id() const noexcept {
         return typeId;
     }
-    virtual const string& name() const noexcept override {
-        return typeName;
-    }
 };
 
 // Function type class, has two types (first, second) and expresses the type `first -> second`
 class FunctionType : public Type {
 protected:
-    unique_ptr<Type> firstType;
-    unique_ptr<Type> secondType;
+    shared_ptr<Type> firstType;
+    shared_ptr<Type> secondType;
 
 public:
-    FunctionType(unique_ptr<Type> first, unique_ptr<Type> second);
+    FunctionType(shared_ptr<Type> first, shared_ptr<Type> second);
 
     virtual TypeForm form() const noexcept override {
         return TypeForm::TypeFormFunction;
     }
-    virtual const string& name() const noexcept override;
     virtual bool operator==(const Type& rType) const override;
 
     const Type* fst() const noexcept {
@@ -78,6 +73,8 @@ public:
     const Type* snd() const noexcept {
         return secondType.get();
     }
+
+    static string structName(const Type* first, const Type* second);
 };
 
 }

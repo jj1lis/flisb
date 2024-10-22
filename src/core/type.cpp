@@ -14,23 +14,24 @@ bool BaseType::operator==(const Type& rType) const {
     }
 }
 
-FunctionType::FunctionType(unique_ptr<Type> first, unique_ptr<Type> second) 
-    : Type(string("(") + first->name() + string(" -> ") + second->name() + string(")")) {
+FunctionType::FunctionType(shared_ptr<Type> first, shared_ptr<Type> second) 
+        : Type(structName(first.get(), second.get())) {
     firstType = std::move(first);
     secondType = std::move(second);
 }
 
-const string& FunctionType::name() const noexcept {
-    return typeName;
-}
-
 bool FunctionType::operator==(const Type& rType) const {
-    if(rType.type() == TypeEnum::TypeEnumFunction) {
+    if(rType.form() == TypeForm::TypeFormFunction) {
         const FunctionType& r = dynamic_cast<const FunctionType&>(rType);
         return *fst() == *(r.fst()) && *snd() == *(r.snd());
     } else {
         return false;
     }
+}
+
+string FunctionType::structName(const Type *first, const Type *second) {
+    // (first -> second)
+    return string("(") + first->name() + string(" -> ") + second->name() + string(")");
 }
 
 }
