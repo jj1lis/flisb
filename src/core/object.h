@@ -9,15 +9,10 @@ namespace flisb::core {
 
 class Object {
 protected:
-    const string objectName;
 
 public:
     Object() {};
-    Object(string name)
-            : objectName(name) {};
-    const string& name() const {
-        return objectName;
-    }
+    virtual string name() const noexcept = 0;
 };
 
 }    // namespace flisb::core

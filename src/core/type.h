@@ -23,11 +23,15 @@ enum TypeForm : uint8_t {
 // Abstract class expressing type
 class Type : public Object {
 protected:
+    const string typeName;
 
 public:
     Type() {};
     Type(string name)
-            : Object(name) {};
+            : typeName(name) {};
+    virtual string name() const noexcept override {
+        return typeName;
+    }
     virtual TypeForm form() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;

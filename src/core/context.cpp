@@ -10,7 +10,7 @@ using namespace std;
 namespace flisb::core {
 
 Assignment::Assignment(shared_ptr<BaseTerm> variable, shared_ptr<Type> type)
-        : Object(structName(variable.get(), type.get())) {
+        : assignmentName(structName(variable.get(), type.get())) {
     assignee = std::move(variable);
     assigner = std::move(type);
 }

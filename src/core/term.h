@@ -23,11 +23,15 @@ enum TermForm : uint8_t {
 // Abstract class expression term
 class Term : public Object {
 protected:
+    const string termName;
 
 public:
     Term();
     Term(string name)
-            : Object(name) {};
+            : termName(name) {};
+    virtual string name() const noexcept override {
+        return termName;
+    }
     virtual TermForm form() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
