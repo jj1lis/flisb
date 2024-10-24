@@ -15,8 +15,7 @@ bool BaseTerm::operator==(const Term& rTerm) const {
     }
 }
 
-AppliedTerm::AppliedTerm(shared_ptr<Term> first, shared_ptr<Term> second)
-        : Term(structName(first.get(), second.get())) {
+AppliedTerm::AppliedTerm(shared_ptr<Term> first, shared_ptr<Term> second) {
     firstTerm  = std::move(first);
     secondTerm = std::move(second);
 }
@@ -30,8 +29,7 @@ bool AppliedTerm::operator==(const Term& rTerm) const {
     }
 }
 
-FunctionTerm::FunctionTerm(shared_ptr<BaseTerm> parameter, shared_ptr<Term> bound)
-        : Term(structName(parameter.get(), bound.get())) {
+FunctionTerm::FunctionTerm(shared_ptr<BaseTerm> parameter, shared_ptr<Term> bound) {
     parameterVariable = std::move(parameter);
     boundTerm         = std::move(bound);
 }
@@ -45,12 +43,14 @@ bool FunctionTerm::operator==(const Term& rTerm) const {
     }
 }
 
-string AppliedTerm::structName(const Term* first, const Term* second) {
-    return string("(") + first->name() + second->name() + string(")");
+string AppliedTerm::name() const noexcept {
+    // (first second)
+    return string("(") + firstTerm->name() + secondTerm->name() + string(")");
 }
 
-string FunctionTerm::structName(const BaseTerm* first, const Term* second) {
-    return string("(\\") + first->name() + string(".") + second->name() + string(")");
+string FunctionTerm::name() const noexcept {
+    // (\parameter.bound)
+    return string("(\\") + parameterVariable->name() + string(".") + boundTerm->name() + string(")");
 }
 
 }    // namespace flisb::core

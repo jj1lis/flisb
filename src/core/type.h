@@ -23,15 +23,9 @@ enum TypeForm : uint8_t {
 // Abstract class expressing type
 class Type : public Object {
 protected:
-    const string typeName;
 
 public:
     Type() {};
-    Type(string name)
-            : typeName(name) {};
-    virtual string name() const noexcept override {
-        return typeName;
-    }
     virtual TypeForm form() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
@@ -42,11 +36,16 @@ public:
 // Base type class
 class BaseType : public Type {
 protected:
+    const string typeName;
     const baseTypeId typeId;
 
 public:
-    BaseType(baseTypeId id, string name) : Type(name), typeId(id) {};
+    BaseType(baseTypeId id, string name)
+            : typeName(name), typeId(id) {};
 
+    virtual string name() const noexcept override {
+        return typeName;
+    }
     virtual TypeForm form() const noexcept override {
         return TypeForm::TypeFormBase;
     }
@@ -69,6 +68,7 @@ protected:
 public:
     FunctionType(shared_ptr<Type> first, shared_ptr<Type> second);
 
+    virtual string name() const noexcept override;
     virtual TypeForm form() const noexcept override {
         return TypeForm::TypeFormFunction;
     }
@@ -80,8 +80,6 @@ public:
     const Type* snd() const noexcept {
         return secondType.get();
     }
-
-    static string structName(const Type* first, const Type* second);
 };
 
 }

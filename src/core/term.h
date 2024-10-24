@@ -23,15 +23,9 @@ enum TermForm : uint8_t {
 // Abstract class expression term
 class Term : public Object {
 protected:
-    const string termName;
 
 public:
-    Term();
-    Term(string name)
-            : termName(name) {};
-    virtual string name() const noexcept override {
-        return termName;
-    }
+    Term() {};
     virtual TermForm form() const noexcept = 0;
     virtual bool isBase() const noexcept {
         return false;
@@ -42,12 +36,20 @@ public:
 // Base term class
 class BaseTerm : public Term {
 protected:
+    // unique id of this base term
     const baseTermId termId;
+    // name of this base term
+    const string termName;
 
 public:
+    // @param id: unique id of this base term
+    // @param name: name of this base term
     BaseTerm(baseTermId id, string name)
-            : Term(name), termId(id) {};
+            : termId(id), termName(name) {};
 
+    virtual string name() const noexcept override {
+        return termName;
+    }
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormBase;
     }
@@ -70,6 +72,7 @@ protected:
 public:
     AppliedTerm(shared_ptr<Term> first, shared_ptr<Term> second);
 
+    virtual string name() const noexcept override;
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormApplied;
     }
@@ -81,8 +84,6 @@ public:
     const Term* snd() const noexcept {
         return secondTerm.get();
     }
-
-    static string structName(const Term* first, const Term* second);
 };
 
 // Function term class
@@ -94,6 +95,7 @@ protected:
 public:
     FunctionTerm(shared_ptr<BaseTerm> parameter, shared_ptr<Term> bound);
 
+    virtual string name() const noexcept override;
     virtual TermForm form() const noexcept override {
         return TermForm::TermFormFunction;
     }
@@ -105,8 +107,6 @@ public:
     const Term* bound() const noexcept {
         return boundTerm.get();
     }
-
-    static string structName(const BaseTerm* parameter, const Term* bound);
 };
 
 }    // namespace flisb::core

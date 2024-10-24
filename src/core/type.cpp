@@ -14,8 +14,7 @@ bool BaseType::operator==(const Type& rType) const {
     }
 }
 
-FunctionType::FunctionType(shared_ptr<Type> first, shared_ptr<Type> second)
-        : Type(structName(first.get(), second.get())) {
+FunctionType::FunctionType(shared_ptr<Type> first, shared_ptr<Type> second) {
     firstType = std::move(first);
     secondType = std::move(second);
 }
@@ -29,8 +28,8 @@ bool FunctionType::operator==(const Type& rType) const {
     }
 }
 
-string FunctionType::structName(const Type* first, const Type* second) {
+string FunctionType::name() const noexcept {
     // (first -> second)
-    return string("(") + first->name() + string(" -> ") + second->name() + string(")");
+    return string("(") + firstType->name() + string(" -> ") + secondType->name() + string(")");
 }
 }

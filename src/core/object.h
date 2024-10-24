@@ -12,6 +12,8 @@ protected:
 
 public:
     Object() {};
+
+    // get name, the string expression of this Object.
     virtual string name() const noexcept = 0;
 };
 
